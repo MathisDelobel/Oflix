@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du film
+{{ movie.title }}
+{% endblock %}
+
+{% block body %}
+<div class="container bg-light pt-5">
+	<div class="row mb-2">
+		<div class="col">
+			<div class="row g-0 rounded overflow-hidden flex-md-row align-items-start mb-4 shadow-s position-relative">
+				<div class="col-4 movie__poster img-thumbnail">
+					<img src="{{ movie.poster }}" class="img-fluid">
+
+				</div>
+
+				<div class="col-8 p-4 d-flex flex-column position-static bg-light">
+
+					{{ include('movie/_partials/_favorite_button.html.twig', {currentMovie: movie}) }}
+
+					<strong class="d-inline-block mb-2 text-primary">{{ movie.type }}</strong>
+					<h3 class="mb-1">{{ movie.title }}</h3>
+					<div class="mb-1 text-muted">{{ movie.duration }}
+						min</div>
+					<p>
+						{% for currentGenre in movie.genres %}
+						<span class="badge bg-warning text-dark">{{ currentGenre.name }}</span>
+						{% endfor %}
+					</p>
+					<p>{{ movie.synopsis }}</p>
+					<div class="d-flex mb-4" style="color: orange;">
+						<i class="bi bi-star-fill"></i>
+						<i class="bi bi-star-fill"></i>
+						<i class="bi bi-star-fill"></i>
+						<i class="bi bi-star-fill"></i>
+						<i class="bi bi-star-half"></i>
+						<span class="ps-1">{{ movie.rating }}</span>
+					</div>
+
+					{# Si c'est une série #}
+					{# alors afficher et dynamiser cette section #}
+					{% if movie.type == 'Série' %}
+					<h2>{{ movie.seasons|length }}
+						Saisons</h2>
+					<ul class="list-unstyled">
+						{% for currentSeason in movie.seasons %}
+						<li>
+							<span class="badge bg-danger fs-6 mb-2">Saison
+								{{ currentSeason.number }}</span>
+							<small class="ms-1">({{ currentSeason.episodeCount}}
+								épisodes)</small>
+						</li>
+						{% endfor %}
+					</ul>
+					{% endif %}
+
+					<dl class="row">
+						<dt class="col-sm-12">Avec</dt>
+						<dd class="col-sm-12">
+							{# on peut demander à twig d'ordonner le tableau #}
+							{# {% for currentCasting in movie.castings|sort((movieA, movieB) => movieA.creditOrder <=>
+								movieB.creditOrder) %} #}
+								{% for currentCasting in movie.castings %}
+								{{ currentCasting.person.firstName }}
+								{{ currentCasting.person.lastName }}
+								(
+								{{ currentCasting.role }}
+								)
+								<br>
+								{% endfor %}
+						</dd>
+						<dt class="col-sm-12"> Pays</dt>
+						<dd class="col-sm-12">{{ movie.country }}</dd>
+						<dt class="col-sm-12">Année</dt>
+						<dd class="col-sm-12">{{ movie.releaseDate|date('Y') }}</dd>
+					</dl>
+					{# bouton créer une review #}
+					{% if is_granted("ROLE_USER") %}
+					<a class="btn btn-danger" href="{{path('app_review_add',{id:movie.id})}}">Créer une review</a>
+					{% endif %}
+					<section>
+						{% if movie.reviews is not empty %}
+						<h2 class="my-3">Les reviews</h2>
+						{% else %}
+						<h2 class="my-3">Pas encore de reviews</h2>
+						{% endif %}
+						{% for review in movie.reviews %}
+						<div class="card my-2">
+							<div class="card-header">
+								review faite par : {{review.username}}
+							</div>
+							<div class="card-body">
+								
+								<blockquote class="blockquote mb-0">
+									<p> {{review.content}}</p>
+									<footer class="blockquote-footer">{{review.watchedAt|date("d/m/Y")}}</footer>
+								</blockquote>
+							</div>
+						</div>
+						{% endfor %}
+						{# TODO afficher les reviews #}
+					</section>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+{% endblock %}

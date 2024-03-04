@@ -1,0 +1,31 @@
+{% for currentMovie in movieList %}
+<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm bg-white position-relative">
+    <div class="col-4 movie__poster" style="background-image: url({{ currentMovie.poster }});">
+        <img src="{{ asset('images/poster-placeholder.png') }}" class="img-fluid">
+        <!-- img src="https://m.media-amazon.com/images/M/MV5BNThmZGY4NzgtMTM4OC00NzNkLWEwNmEtMjdhMGY5YTc1NDE4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" class="img-fluid" -->
+    </div>
+    <div class="col-8 p-4 d-flex flex-column position-static">
+        
+{# {{ dump(app.session.get('favorite_movies')) }} #}
+        {% include('movie/_partials/_favorite_button.html.twig') %}
+
+        <strong class="d-inline-block mb-2 text-primary">{{ currentMovie.type }}</strong>
+        <h3 class="mb-1">{{ currentMovie.title }}</h3>
+        <div class="mb-1 text-muted">{{ currentMovie.duration }} min</div>
+        <p><small>{{ currentMovie.summary }}</small>
+        </p>
+        <div class="d-flex" style="color: orange;">
+        
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+            <span class="ps-1">{{ currentMovie.rating }}</span>
+        </div>
+        <a href="{{ path('app_movie_show', {id: currentMovie.id}) }}" class="fs-1 mt-3 text-danger align-self-start">
+            <i class="bi bi-arrow-right-square"></i>
+        </a>
+    </div>
+</div>
+{% endfor %}

@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue - O'flix{% endblock %}
+
+{% block body %}
+
+<!-- main -->
+<div class="my-5 py-5 text-center">
+    <img src="{{ asset('favicon.png') }}" height="100" alt="Logo O'flix" class="mb-3">
+    <h1 class="display-6 fw-bold">Films, séries TV et popcorn en illimité.</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4 text-muted">Où que vous soyez. Gratuit pour toujours.</p>
+    </div>
+</div>
+
+<div class="container-xl bg-light p-5 border-top">
+
+    <div class="row mb-2">
+
+        <div class="col-12 col-lg-3">
+            <h2 class="text-center text-muted fw-bold mb-4">Les genres</h2>
+            <ul class="d-flex flex-column flex-wrap list-unstyled justify-content-center">
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Action</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Animation</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Aventure</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Comédie</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Dessin animé</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Documentaire</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Drame</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Espionnage</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Famille</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Fantastique</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Historique</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Policier</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Romance</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Science-fiction</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Thriller</li>
+                <li class="btn btn-sm btn-outline-danger mx-1 mb-2">Western</li>
+            </ul>
+        </div>
+
+        <div class="col-12 col-lg-9">
+
+            <h2 class="text-muted fw-bold mb-4">Les nouveautés</h2>
+            {% include 'movie/_partials/_movie_list.html.twig' %}
+        </div>
+
+        <nav class="col-lg-9 offset-lg-3">
+            <ul class="pagination">
+                <li class="page-item {% if selectedPage == 1 %}disabled{% endif %}">
+                    <a href="{{ path('app_homepage', {'page' : selectedPage - 1})}}" class="page-link">&laquo;</a>
+                </li>
+                {% for currentPage in 1..maxPageCount %}
+                <li class="page-item {% if selectedPage == currentPage %} active {% endif %}" {% if
+                    selectedPage==currentPage %}aria-current="page" {% endif %}>
+                    <a class="page-link" href="{{ path('app_homepage', {'page' : currentPage, 'toto' : 'tata'})}}">{{
+                        currentPage}}</a>
+                </li>
+                {% endfor %}
+                <li class="page-item {% if selectedPage == maxPageCount %}disabled{% endif %}">
+                    <a class="page-link" href="{{ path('app_homepage', {'page' : selectedPage + 1})}}">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une review
+{% endblock %}
+
+{% block body %}
+	<main class="container my-3">
+		{{form_start(form)}}
+
+			{{form_rest(form)}}
+			{# pour la bonne pratique je crée le bouton submit dans le template #}
+			<button class="btn btn-danger"  type="submit">Créer la review</button>
+		{{form_end(form)}}
+	</main>
+{% endblock %}
